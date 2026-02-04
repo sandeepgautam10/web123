@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Will You Be My Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffd6e8, #ffeef5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #ffffff;
+      width: 90%;
+      max-width: 420px;
+      padding: 36px 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .emoji {
+      font-size: 64px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 18px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 70px;
+      margin-bottom: 6px;
+    }
+
+    button {
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      left: 50%;
+      transform: translateX(-110%);
+      box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+    }
+
+    #yesBtn:hover {
+      transform: translateX(-110%) scale(1.05);
+    }
+
+    #noBtn {
+      background: #e0e0e0;
+      color: #555;
+      left: 50%;
+      transform: translateX(20%);
+    }
+
+    .note {
+      font-size: 13px;
+      color: #777;
+      margin-top: 10px;
+    }
+
+    .success {
+      display: none;
+      margin-top: 10px;
+      animation: pop 0.4s ease;
+    }
+
+    .success img {
+      width: 170px;
+      max-width: 75%;
+      margin-bottom: 4px;
+      animation: pop 0.4s ease;
+    }
+
+    .success-text {
+      font-size: 22px;
+      color: #ff4d6d;
+      margin: 0;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      animation: fall 1.5s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="emoji">🦁❤️</div>
+
+    <h1>Chinmayee, will you be my Valentine?</h1>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+
+    <div class="note" id="noteText">"No" seems a bit shy 😈</div>
+
+    <div class="success" id="successMsg">
+      <img src="photo\WhatsApp Image 2026-01-31 at 5.56.18 PM.jpeg" alt="Love image" />
+      <p class="success-text">Yay! 💖 I knew it!</p>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const successMsg = document.getElementById("successMsg");
+    const noteText = document.getElementById("noteText");
+    const card = document.querySelector(".card");
+
+    function moveNoButton() {
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = cardRect.width - btnRect.width - 20;
+      const maxY = cardRect.height - btnRect.height - 100;
+
+      const x = Math.random() * Math.max(0, maxX);
+      const y = Math.random() * Math.max(0, maxY);
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+      noBtn.style.transform = "none";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      successMsg.style.display = "block";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+      noteText.style.display = "none";
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.background =
+          ["#ff4d6d", "#ffd166", "#4cc9f0", "#b5179e"][
+            Math.floor(Math.random() * 4)
+          ];
+        confetti.style.animationDuration = 1 + Math.random() + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 1500);
+      }
+    }
+  </script>
+</body>
+</html>
